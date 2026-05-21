@@ -19,6 +19,7 @@ const ctx = await esbuild.context({
     "@codemirror/state",
     "@codemirror/view",
     "@lezer/common",
+    "@lezer/highlight",
     "@lezer/lr",
     ...builtins,
   ],
