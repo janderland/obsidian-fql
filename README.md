@@ -29,6 +29,22 @@ npm install && npm run build
 
 Then enable **FQL Syntax Highlighting** under Settings → Community plugins.
 
+## Matching the FQL docs palette
+
+The repo ships an optional CSS snippet that recolors FQL blocks to match the
+Base16 palette used by the [FQL docs site](https://github.com/janderland/fql)
+— Eighties in dark mode, Tomorrow in light mode.
+
+To install it as an Obsidian CSS snippet:
+
+```sh
+cp snippets/fql-base16.css \
+  /path/to/vault/.obsidian/snippets/fql-base16.css
+```
+
+Then enable it under **Settings → Appearance → CSS snippets**. Snippets
+hot-reload, so further edits don't require restarting Obsidian.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

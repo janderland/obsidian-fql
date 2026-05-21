@@ -1,0 +1,56 @@
+/*
+ * FQL Base16 palette — matches the highlight.js theme used at
+ * https://github.com/janderland/fql docs.
+ *
+ *   Dark  → Base16 Eighties  (Chris Kempson)
+ *   Light → Base16 Tomorrow  (Chris Kempson)
+ *
+ * Install as an Obsidian CSS snippet — see the FQL Syntax Highlighting
+ * plugin README for instructions.
+ */
+
+body.theme-dark {
+  --fql-comment:     #747369;
+  --fql-string:      #99cc99;
+  --fql-escape:      #d3d0c8;
+  --fql-keyword:     #cc99cc;
+  --fql-number:      #f99157;
+  --fql-accent:      #ffcc66;
+  --fql-namespace:   #6699cc;
+  --fql-name:        #d3d0c8;
+  --fql-variable:    #f2777a;
+  --fql-punctuation: #66cccc;
+  --fql-bracket:     #ffcc66;
+  --fql-separator:   #d3d0c8;
+}
+
+body.theme-light {
+  --fql-comment:     #8e908c;
+  --fql-string:      #718c00;
+  --fql-escape:      #4d4d4c;
+  --fql-keyword:     #8959a8;
+  --fql-number:      #f5871f;
+  --fql-accent:      #a3685a;
+  --fql-namespace:   #4271ae;
+  --fql-name:        #4d4d4c;
+  --fql-variable:    #c82829;
+  --fql-punctuation: #3e999f;
+  --fql-bracket:     #a3685a;
+  --fql-separator:   #4d4d4c;
+}
+
+.tok-comment       { color: var(--fql-comment); font-style: italic; }
+.tok-string        { color: var(--fql-string); }
+.tok-escape        { color: var(--fql-escape); }
+.tok-keyword       { color: var(--fql-keyword); }
+.tok-atom          { color: var(--fql-keyword); }
+.tok-bool          { color: var(--fql-keyword); }
+.tok-typeName      { color: var(--fql-keyword); }
+.tok-number        { color: var(--fql-number); }
+.tok-accent        { color: var(--fql-accent); }
+.tok-namespace     { color: var(--fql-namespace); }
+.tok-name          { color: var(--fql-name); }
+.tok-variableName  { color: var(--fql-variable); }
+.tok-punctuation   { color: var(--fql-punctuation); }
+.tok-squareBracket { color: var(--fql-bracket); }
+.tok-separator     { color: var(--fql-separator); }

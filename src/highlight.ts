@@ -5,7 +5,7 @@ export const fqlHighlighting = styleTags({
 
   Nil: t.atom,
   Bool: t.bool,
-  SpecialFloat: t.float,
+  SpecialFloat: t.atom,
 
   Clear: t.keyword,
   Remove: t.keyword,
@@ -20,16 +20,21 @@ export const fqlHighlighting = styleTags({
   String: t.string,
 
   TypeName: t.typeName,
-  "VarName/...": t.variableName,
-  "RefName/...": t.variableName,
+  "VarName/...": t.name,
+  "RefName/...": t.name,
   "DirName/...": t.namespace,
 
-  "=": t.definitionOperator,
-  MaybeMore: t.punctuation,
-  ",": t.separator,
-  ":": t.separator,
-  "|": t.operator,
-  "( )": t.paren,
+  "DirSep/...": t.punctuation,
+  "( )": t.punctuation,
+  "=": t.punctuation,
+
+  "< >": t.variableName,
+  "|": t.variableName,
+  "VarSep/...": t.variableName,
+  "RefSep/...": t.variableName,
+  MaybeMore: t.variableName,
+
   "[ ]": t.squareBracket,
-  "< >": t.angleBracket,
+  ",": t.separator,
+  "OptionSep/...": t.separator,
 });

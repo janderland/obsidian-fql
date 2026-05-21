@@ -11,7 +11,8 @@ Value { Clear | Remove | Data }
 Clear  { @extend<DirNameTok, "clear"> }
 Remove { @extend<DirNameTok, "remove"> }
 
-Directory { "/" DirSegment (!extendDir Directory)? }
+Directory { DirSep DirSegment (!extendDir Directory)? }
+DirSep { "/" | "@" }
 
 DirSegment { Variable | String | DirName }
 DirName { DirNameTok }
@@ -41,11 +42,12 @@ SpecialFloat { @extend<DirNameTok, "inf" | "nan" | "-inf" | "-nan"> }
 
 Variable {
   "<"
-  ( VarName ":" VarTypes? | VarTypes )?
+  ( VarName VarSep VarTypes? | VarTypes )?
   Options?
   ">"
 }
 VarName  { DirNameTok }
+VarSep   { ":" }
 VarTypes { TypeName ("|" TypeName)* }
 TypeName {
   @extend<DirNameTok,
@@ -54,11 +56,13 @@ TypeName {
     | "nil" | "append" | "sum" | "avg" | "min" | "max" | "count">
 }
 
-Reference { ":" RefName }
+Reference { RefSep RefName }
+RefSep  { ":" }
 RefName { DirNameTok }
 
 Options { "[" (Option ("," Option)*)? "]" }
-Option { OptionKeyword (":" OptionValue)? }
+Option { OptionKeyword (OptionSep OptionValue)? }
+OptionSep { ":" }
 OptionKeyword {
   @extend<DirNameTok,
       "be" | "sep" | "endian" | "width" | "unsigned" | "raw"
@@ -96,7 +100,7 @@ OptionRaw { DirNameTok }
 
   String { '"' (!["\\] | "\\" _)* '"'? }
 
-  "/" "(" ")" "<" ">" "[" "]" "," ":" "=" "|"
+  "/" "@" "(" ")" "<" ">" "[" "]" "," ":" "=" "|"
 
   @precedence {
     UUID, Bytes, Vstamp, Float, Int, MaybeMore, DirNameTok
