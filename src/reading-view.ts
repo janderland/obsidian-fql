@@ -2,9 +2,7 @@ import { forEachToken } from "./language";
 
 export function renderFqlBlock(source: string, el: HTMLElement): void {
   const pre = document.createElement("pre");
-  pre.className = "language-fql";
   const code = document.createElement("code");
-  code.className = "language-fql";
   pre.appendChild(code);
   el.appendChild(pre);
 
