@@ -1,0 +1,15 @@
+/* FQL syntax highlighting. The .tok-* classes come from @lezer/highlight's
+   classHighlighter and are emitted by both the reading-view processor and the
+   editor ViewPlugin. Unscoped so they apply in both contexts. */
+
+.tok-comment       { color: var(--code-comment); font-style: italic; }
+.tok-string        { color: var(--code-string); }
+.tok-keyword       { color: var(--code-keyword); }
+.tok-atom          { color: var(--code-keyword); }
+.tok-bool          { color: var(--code-keyword); }
+.tok-number        { color: var(--code-value); }
+.tok-typeName      { color: var(--code-tag); }
+.tok-variableName  { color: var(--code-property); }
+.tok-namespace     { color: var(--code-function); }
+.tok-operator      { color: var(--code-operator); }
+.tok-punctuation   { color: var(--code-punctuation, var(--code-normal)); }

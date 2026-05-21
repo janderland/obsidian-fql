@@ -1,0 +1,106 @@
+@top SourceFile { Query* }
+
+@skip { space | Comment }
+
+@precedence { extendDir @right }
+
+Query { Directory (Tuple ("=" Value)?)? }
+
+Value { Clear | Remove | Data }
+
+Clear  { @extend<DirNameTok, "clear"> }
+Remove { @extend<DirNameTok, "remove"> }
+
+Directory { "/" DirSegment (!extendDir Directory)? }
+
+DirSegment { Variable | String | DirName }
+DirName { DirNameTok }
+
+Tuple { "(" (Element ("," Element)* ","?)? ")" }
+Element { Data | MaybeMore }
+
+Data {
+    Nil
+  | Bool
+  | SpecialFloat
+  | Float
+  | Int
+  | Variable
+  | Tuple
+  | String
+  | UUID
+  | Bytes
+  | Vstamp
+  | Reference
+  | Options
+}
+
+Nil  { @extend<DirNameTok, "nil"> }
+Bool { @extend<DirNameTok, "true" | "false"> }
+SpecialFloat { @extend<DirNameTok, "inf" | "nan" | "-inf" | "-nan"> }
+
+Variable {
+  "<"
+  ( VarName ":" VarTypes? | VarTypes )?
+  Options?
+  ">"
+}
+VarName  { DirNameTok }
+VarTypes { TypeName ("|" TypeName)* }
+TypeName {
+  @extend<DirNameTok,
+      "any" | "tuple" | "tup" | "bool" | "int" | "num" | "bint"
+    | "float" | "string" | "str" | "uuid" | "bytes" | "vstamp"
+    | "nil" | "append" | "sum" | "avg" | "min" | "max" | "count">
+}
+
+Reference { ":" RefName }
+RefName { DirNameTok }
+
+Options { "[" (Option ("," Option)*)? "]" }
+Option { OptionKeyword (":" OptionValue)? }
+OptionKeyword {
+  @extend<DirNameTok,
+      "be" | "sep" | "endian" | "width" | "unsigned" | "raw"
+    | "bigendian" | "reverse" | "limit" | "mode" | "snapshot"
+    | "strict" | "pick"
+    | "i8" | "i16" | "i32" | "i64"
+    | "u8" | "u16" | "u32" | "u64"
+    | "f32" | "f64" | "f80">
+}
+OptionValue { String | OptionRaw | Int | Float }
+OptionRaw { DirNameTok }
+
+@tokens {
+  space { @whitespace+ }
+  Comment { "%" ![\n]* }
+
+  hexDigit { $[0-9A-Fa-f] }
+  digit    { $[0-9] }
+
+  UUID {
+    hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit "-"
+    hexDigit hexDigit hexDigit hexDigit "-"
+    hexDigit hexDigit hexDigit hexDigit "-"
+    hexDigit hexDigit hexDigit hexDigit "-"
+    hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit
+    hexDigit hexDigit hexDigit hexDigit
+  }
+  Bytes  { "0x" hexDigit+ }
+  Vstamp { "#" hexDigit* ":" hexDigit hexDigit hexDigit hexDigit }
+  Float  { "-"? digit+ "." digit+ ("e" "-"? digit+)? }
+  Int    { "-"? digit+ }
+
+  MaybeMore  { "..." }
+  DirNameTok { $[a-zA-Z0-9._\-]+ }
+
+  String { '"' (!["\\] | "\\" _)* '"'? }
+
+  "/" "(" ")" "<" ">" "[" "]" "," ":" "=" "|"
+
+  @precedence {
+    UUID, Bytes, Vstamp, Float, Int, MaybeMore, DirNameTok
+  }
+}
+
+@detectDelim

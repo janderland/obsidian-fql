@@ -1,0 +1,10 @@
+{
+  "id": "fql-syntax",
+  "name": "FQL Syntax Highlighting",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "Syntax highlighting for FQL (FoundationDB query language) code blocks.",
+  "author": "Jon Anderson",
+  "authorUrl": "https://github.com/janderland",
+  "isDesktopOnly": false
+}
