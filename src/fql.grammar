@@ -2,9 +2,9 @@
 
 @skip { space | Comment }
 
-@precedence { extendDir @right }
+@precedence { extendDir @right, typeOpts @right, dataOpts @right }
 
-Query { Directory (Tuple ("=" Value)?)? }
+Query { Options? Directory (Tuple ("=" Value)?)? }
 
 Value { Clear | Remove | Data }
 
@@ -21,7 +21,7 @@ Tuple { "(" (Element ("," Element)* ","?)? ")" }
 Element { Data | MaybeMore }
 
 Data {
-    Nil
+  ( Nil
   | Bool
   | SpecialFloat
   | Float
@@ -32,8 +32,8 @@ Data {
   | UUID
   | Bytes
   | Vstamp
-  | Reference
-  | Options
+  | Reference )
+  (!dataOpts Options)?
 }
 
 Nil  { @extend<DirNameTok, "nil"> }
@@ -43,31 +43,32 @@ SpecialFloat { @extend<DirNameTok, "inf" | "nan" | "-inf" | "-nan"> }
 Variable {
   "<"
   ( VarName VarSep VarTypes? | VarTypes )?
-  Options?
   ">"
 }
 VarName  { DirNameTok }
 VarSep   { ":" }
-VarTypes { TypeName ("|" TypeName)* }
+VarTypes { Type ("|" Type)* }
+Type { TypeName (!typeOpts Options)? }
 TypeName {
   @extend<DirNameTok,
-      "any" | "tuple" | "tup" | "bool" | "int" | "num"
-    | "float" | "string" | "str" | "uuid" | "bytes" | "vstamp"
-    | "nil" | "append" | "sum" | "avg" | "min" | "max" | "count">
+      "any" | "tup" | "bool" | "int" | "num"
+    | "str" | "uuid" | "bytes" | "vstamp"
+    | "append" | "sum" | "avg" | "min" | "max" | "count">
 }
 
-Reference { RefSep RefName }
+Reference { RefSep RefName TypeCast? }
 RefSep  { ":" }
 RefName { DirNameTok }
+TypeCast { "!" Type }
 
 Options { "[" (Option ("," Option)*)? "]" }
 Option { OptionKeyword (OptionSep OptionValue)? }
 OptionSep { ":" }
 OptionKeyword {
   @extend<DirNameTok,
-      "be" | "sep" | "endian" | "width" | "unsigned" | "raw"
-    | "bigendian" | "reverse" | "limit" | "mode" | "snapshot"
-    | "strict" | "pick"
+      "be" | "bigendian" | "unsigned" | "width" | "raw"
+    | "reverse" | "snapshot" | "limit" | "mode"
+    | "separator" | "strict"
     | "i8" | "i16" | "i32" | "i64"
     | "u8" | "u16" | "u32" | "u64"
     | "f32" | "f64" | "f80">
